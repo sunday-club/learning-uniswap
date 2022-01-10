@@ -66,15 +66,6 @@ const config: HardhatUserConfig = {
     kovan: getChainConfig("kovan"),
     rinkeby: getChainConfig("rinkeby"),
     ropsten: getChainConfig("ropsten"),
-    localhost: {
-      accounts: {
-        count: 10,
-        mnemonic,
-        path: "m/44'/60'/0'/0",
-      },
-      chainId: 31337,
-      url: "http://localhost:8545",
-    },
   },
   paths: {
     artifacts: "./artifacts",
