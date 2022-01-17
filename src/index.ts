@@ -7,3 +7,10 @@ ethers.provider.on("block", async () => {
   const reserves = await pair.getReserves();
   console.log(`${reserves[0].toString()} ----- ${reserves[1].toString()}`);
 });
+
+ethers.provider.on("block", async () => {
+  const pairAddrSushiSwap = "0x06da0fd433C1A5d7a4faa01111c044910A184553";
+  const pairSushiSwap = await ethers.getContractAt(["function getReserves() view returns (uint112, uint112, uint32)"], pairAddrSushiSwap);
+  const reservesSushiSwap = await pairSushiSwap.getReserves();
+  console.log(`${reservesSushiSwap[0].toSring()} ---- ${reservesSushiSwap[1].toString()}`);
+})
