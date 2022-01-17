@@ -66,6 +66,15 @@ Run the Mocha tests:
 $ yarn test
 ```
 
+### Start
+
+Run the index.ts file
+
+```sh
+$ yarn start --network mainnet 
+```
+
+
 ### Coverage
 
 Generate the code coverage report:
