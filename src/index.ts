@@ -12,19 +12,35 @@ ethers.provider.on("block", async block => {
   const uniswapPairAddr = "0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852";
   const sushiSwapPaidAddr = "0x06da0fd433c1a5d7a4faa01111c044910a184553";
 
+  // calculating price values using the uniswap pair contract
   const uniswapPairContract = await ethers.getContractAt(
     ["function getReserves() view returns (uint112, uint112, uint32)"],
     uniswapPairAddr,
   );
+  console.log("UNISWAP PRICE VALUES (DERIVED FROM PAIR CONTRACT)\n");
+  const uniReserves = await uniswapPairContract.getReserves();
+  const weth_uni_reserve = uniReserves[0];
+  const usdt_uni_reserve = uniReserves[1];
+  const uni_constantProduct = weth_uni_reserve * usdt_uni_reserve;
+  console.log("uni constant product = \t" + uni_constantProduct + "\n");
+  console.log("rWETH/rUSDT == " + weth_uni_reserve / usdt_uni_reserve);
+  console.log("rUSDT/rWETH == " + usdt_uni_reserve / weth_uni_reserve + "\n");
+  console.log("Uniswap Reserve Values:\t" + uniReserves);
+
+  // calculating price values using the sushi swap pair contract
   const sushiswapPairContract = await ethers.getContractAt(
     ["function getReserves() view returns (uint112, uint112, uint32)"],
     sushiSwapPaidAddr,
   );
-
-  const uniReserves = await uniswapPairContract.getReserves();
+  console.log("SUSHISWAP PRICE VALUES (DERIVED FROM PAIR CONTRACT)\n");
   const sushiReserves = await sushiswapPairContract.getReserves();
-  console.log("Uniswap Reserves:\t" + uniReserves);
-  console.log("Sushiswap Reserves:\t" + sushiReserves + "\n\n");
+  const weth_sushi_reserve = sushiReserves[0];
+  const usdt_sushi_reserve = sushiReserves[1];
+  const sushi_constantProduct = weth_sushi_reserve * usdt_sushi_reserve;
+  console.log("sushi constant product = \t" + sushi_constantProduct + "\n");
+  console.log("rWETH/rUSDT == " + weth_sushi_reserve / usdt_sushi_reserve);
+  console.log("rUSDT/rWETH == " + usdt_sushi_reserve / weth_sushi_reserve + "\n");
+  console.log("Sushiswap Reserve Values:\t" + sushiReserves);
 
   console.log("UNISWAP SDK:");
   const uniswapPair = await Fetcher.fetchPairData(USDT, WETH[USDT.chainId]);
